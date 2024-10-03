@@ -22,12 +22,11 @@ function slider(prev, next, slideWrapper, slide) {
   let currentIndex = 2;
   let isAnimating = false; // Флаг для блокировки нажатий
 
-  moveSlide();
-  updateActiveBlock();
   function updateSliderPosition() {
     moveSlide();
     updateActiveBlock();
   }
+  updateSliderPosition();
   document.addEventListener('keydown', e => {
     if (!isAnimating) {
       // Проверяем, идет ли анимация
@@ -98,15 +97,43 @@ function slider(prev, next, slideWrapper, slide) {
         updateSliderPosition();
         track.style.transition = 'none';
         slides[currentIndex].style.transition = 'none';
-        console.log('setTimeout 500');
+        styleForSideSlider();
       }, 450);
       setTimeout(() => {
         track.style.transition = 'transform 0.5s ease-in-out';
         slides.forEach(slide => slide.style.transition = 'all 0.5s ease-in-out');
-        console.log('setTimeout 610');
       }, 500);
     }
   }
+
+  // function rotateForSideSlides() {
+  //     slides.forEach((slide, index) => {
+  //         nextBtn.addEventListener('click', styleForSideSlider);
+  //         prevBtn.addEventListener('click', styleForSideSlider);
+  //         document.addEventListener('keydown', styleForSideSlider);
+  //     })
+  // }
+
+  // rotateForSideSlides()
+
+  // function styleForSideSlider() {
+  //     slides.forEach(slide => {
+  //         slide.classList.remove('right');
+  //         slide.classList.remove('left');
+  //     })
+
+  //     slides[currentIndex + 1].classList.add('right');
+  //     slides[currentIndex - 1].classList.add('left');
+  // }
+
+  // function clickRightSlide() {
+  //     document.querySelector('.right').addEventListener('click', () => {
+  //         console.log(document.querySelector('.right'));
+  //         handleArrowClick('next');
+  //         resetSlidesIfNeeded();
+  //         styleForSideSlider();
+  //     })
+  // }
 }
 
 /***/ })
