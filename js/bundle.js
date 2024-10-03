@@ -98,11 +98,13 @@ function slider(prev, next, slideWrapper, slide) {
         updateSliderPosition();
         track.style.transition = 'none';
         slides[currentIndex].style.transition = 'none';
-      }, 500);
+        console.log('setTimeout 500');
+      }, 450);
       setTimeout(() => {
         track.style.transition = 'transform 0.5s ease-in-out';
         slides.forEach(slide => slide.style.transition = 'all 0.5s ease-in-out');
-      }, 510);
+        console.log('setTimeout 610');
+      }, 500);
     }
   }
 }
