@@ -3,24 +3,14 @@ const nextBtn = document.querySelector('.next');
 const track = document.querySelector('.slider-track');
 const slides = document.querySelectorAll('.about__block');
 const totalSlides = slides.length;
-const slideWidth = parseInt(window.getComputedStyle(slides[0]).width) + 60;
-let currentIndex = 0;
+const slideWidth = slides[0].offsetWidth + 10;
+let currentIndex = 1;
 
-track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
-
-
-function updateActiveBlock() {
-    slides.forEach(slide => slide.classList.remove('active'));
-
-    slides[currentIndex].classList.add('active')
-}
-
+moveSlide();
 updateActiveBlock();
 
-
 function updateSliderPosition() {
-    track.style.transition = 'transform 0.5s ease-in-out';
-    track.style.transform = `translateX(-${slideWidth * currentIndex}px)`;
+    moveSlide();
     updateActiveBlock();
 }
 
@@ -28,24 +18,46 @@ nextBtn.addEventListener('click', () => {
     if (currentIndex >= totalSlides - 1) return; 
     currentIndex++;
     updateSliderPosition();
+
+    if (currentIndex === totalSlides - 2) {
+        setTimeout(() => {
+            slides[currentIndex - 1].style.transition = 'none'
+            currentIndex = 1;
+            updateSliderPosition();
+            track.style.transform = `translateX(-${slideWidth * currentIndex}px)`;
+            track.style.transition = 'none';
+            slides[currentIndex].style.transition = 'none';
+        }, 500);
+    } else {
+         track.style.transition = 'transform 0.5s ease-in-out'
+         slides.forEach(slide => slide.style.transition = 'all 0.5s ease-in-out')
+    }
+
 });
 
 prevBtn.addEventListener('click', () => {
     if (currentIndex <= 0) return;
     currentIndex--;
     updateSliderPosition();
-});
 
-track.addEventListener('transitionend', () => {
-    if (slides[currentIndex].classList.contains('last-clone')) {
-        track.style.transition = 'none';
-        currentIndex = 1;
-        track.style.transform = `translateX(-${slideWidth * currentIndex}px)`;
+    if (currentIndex === 0) {
+        setTimeout(() => {
+            track.style.transition = 'none';
+            currentIndex = totalSlides - 2;
+            updateSliderPosition();
+            track.style.transform = `translateX(-${slideWidth * currentIndex}px)`;
+        }, 500);
     }
 
-    if (slides[currentIndex].classList.contains('first-clone')) {
-        track.style.transition = 'none';
-        currentIndex = totalSlides - 2;
-        track.style.transform = `translateX(-${slideWidth * currentIndex}px)`;
-    }
+    track.style.transition = 'transform 0.5s ease-in-out;'
 });
+
+
+function moveSlide() {
+    track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
+}
+
+function updateActiveBlock() {
+    slides.forEach(slide => slide.classList.remove('active'));
+    slides[currentIndex].classList.add('active');
+}

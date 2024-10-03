@@ -4,6 +4,9 @@
 
 .container {
     padding: 50px 30px;
+    width: 900px;
+    overflow: hidden;
+    margin: 0 auto;
 }
 
 .title {
@@ -36,18 +39,21 @@ hr {
 
 .slider-track {
     display: flex;
-    transition: transform 0.5s ease;
-    gap: 60px;
+    transition: transform 0.5s ease-in-out;
+    gap: 10px;
+    transform: translateX(-310px);
 }
 
 .about__block {
     min-width: 100%;
     box-sizing: border-box;
     transition: all 0.5s ease-in-out;
+    transform: scale(0.8);
+
 }
 
 .about__block.active {
-    transform: scale(1.2);
+    transform: scale(1);
 }
 
 .prev,
