@@ -4,7 +4,9 @@ const track = document.querySelector('.slider-track');
 const slides = document.querySelectorAll('.about__block');
 const totalSlides = slides.length;
 const slideWidth = slides[0].offsetWidth + 10;
-let currentIndex = 1;
+
+let currentIndex = 2;
+let isAnimating = false; // Флаг для блокировки нажатий
 
 moveSlide();
 updateActiveBlock();
@@ -14,44 +16,30 @@ function updateSliderPosition() {
     updateActiveBlock();
 }
 
-nextBtn.addEventListener('click', () => {
-    if (currentIndex >= totalSlides - 1) return; 
-    currentIndex++;
-    updateSliderPosition();
-
-    if (currentIndex === totalSlides - 2) {
-        setTimeout(() => {
-            slides[currentIndex - 1].style.transition = 'none'
-            currentIndex = 1;
-            updateSliderPosition();
-            track.style.transform = `translateX(-${slideWidth * currentIndex}px)`;
-            track.style.transition = 'none';
-            slides[currentIndex].style.transition = 'none';
-        }, 500);
-    } else {
-         track.style.transition = 'transform 0.5s ease-in-out'
-         slides.forEach(slide => slide.style.transition = 'all 0.5s ease-in-out')
+document.addEventListener('keydown', (e) => {
+    if (!isAnimating) { // Проверяем, идет ли анимация
+        clickOnArrow(e.key);
     }
-
 });
 
-prevBtn.addEventListener('click', () => {
-    if (currentIndex <= 0) return;
-    currentIndex--;
-    updateSliderPosition();
-
-    if (currentIndex === 0) {
-        setTimeout(() => {
-            track.style.transition = 'none';
-            currentIndex = totalSlides - 2;
-            updateSliderPosition();
-            track.style.transform = `translateX(-${slideWidth * currentIndex}px)`;
-        }, 500);
+function clickOnArrow(key) {
+    if (key === 'ArrowRight') {
+        nextArrow();
+    } else if (key === 'ArrowLeft') {
+        prevArrow();
     }
+}
 
-    track.style.transition = 'transform 0.5s ease-in-out;'
-});
+function handleArrowClick(direction) {
+    if (direction === 'next') {
+        nextArrow();
+    } else if (direction === 'prev') {
+        prevArrow();
+    }
+}
 
+nextBtn.addEventListener('click', () => handleArrowClick('next'));
+prevBtn.addEventListener('click', () => handleArrowClick('prev'));
 
 function moveSlide() {
     track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
@@ -60,4 +48,60 @@ function moveSlide() {
 function updateActiveBlock() {
     slides.forEach(slide => slide.classList.remove('active'));
     slides[currentIndex].classList.add('active');
+}
+
+function disableButtons() {
+    nextBtn.disabled = true;
+    prevBtn.disabled = true;
+}
+
+function enableButtons() {
+    nextBtn.disabled = false;
+    prevBtn.disabled = false;
+}
+
+function nextArrow() {
+    if (currentIndex >= totalSlides - 1 || isAnimating) return;
+    disableButtons(); // Отключаем кнопки
+    isAnimating = true; // Блокируем нажатия клавиш
+
+    currentIndex++;
+    updateSliderPosition();
+    resetSlidesIfNeeded();
+
+    setTimeout(() => {
+        enableButtons(); // Включаем кнопки
+        isAnimating = false; // Снова разрешаем нажатия клавиш
+    }, 500); // Время завершения анимации
+}
+
+function prevArrow() {
+    if (currentIndex <= 0 || isAnimating) return;
+    disableButtons(); // Отключаем кнопки
+    isAnimating = true; // Блокируем нажатия клавиш
+
+    currentIndex--;
+    updateSliderPosition();
+    resetSlidesIfNeeded();
+
+    setTimeout(() => {
+        enableButtons(); // Включаем кнопки
+        isAnimating = false; // Снова разрешаем нажатия клавиш
+    }, 500); // Время завершения анимации
+}
+
+function resetSlidesIfNeeded() {
+    if (currentIndex === totalSlides - 2 || currentIndex === 1) {
+        setTimeout(() => {
+            currentIndex = (currentIndex === totalSlides - 2) ? 2 : 4;
+            updateSliderPosition();
+            track.style.transition = 'none';
+            slides[currentIndex].style.transition = 'none';
+        }, 500);
+
+        setTimeout(() => {
+            track.style.transition = 'transform 0.5s ease-in-out';
+            slides.forEach(slide => slide.style.transition = 'all 0.5s ease-in-out');
+        }, 510);
+    }
 }
