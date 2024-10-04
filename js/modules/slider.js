@@ -17,6 +17,7 @@ export default function slider(prev, next, slideWrapper, slide) {
         moveSlide();
         updateActiveBlock();
         setTimeout(handleRightClick, 500);
+        setTimeout(handleLeftClick, 500);
     }
 
     updateSliderPosition();
@@ -152,6 +153,35 @@ export default function slider(prev, next, slideWrapper, slide) {
         resetSlidesIfNeeded();
         styleForSideSlider();
 
+        setTimeout(() => {
+            enableButtons(); // Включаем кнопки
+            isAnimating = false; // Снова разрешаем нажатия клавиш
+        }, 500); // Время завершения анимации
+    }
+
+    function handleLeftClick() {
+        if (currentLeft) {
+            currentLeft.removeEventListener('click', leftClickHandler);
+        }
+    
+        currentLeft = document.querySelector('.left');
+    
+        if (currentLeft) {
+            currentLeft.addEventListener('click', leftClickHandler);
+        }
+    }
+    
+    function leftClickHandler() {
+        if (currentIndex <= 0 || isAnimating) return;
+    
+        disableButtons(); // Отключаем кнопки
+        isAnimating = true; // Блокируем нажатия клавиш
+    
+        currentIndex--;
+        updateSliderPosition();
+        resetSlidesIfNeeded();
+        styleForSideSlider();
+    
         setTimeout(() => {
             enableButtons(); // Включаем кнопки
             isAnimating = false; // Снова разрешаем нажатия клавиш
