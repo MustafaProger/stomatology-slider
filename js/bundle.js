@@ -70,32 +70,10 @@ function slider(prev, next, slideWrapper, slide) {
     prevBtn.disabled = false;
   }
   function nextArrow() {
-    if (currentIndex >= totalSlides - 1 || isAnimating) return;
-    disableButtons(); // Отключаем кнопки
-    isAnimating = true; // Блокируем нажатия клавиш
-
-    currentIndex++;
-    updateSliderPosition();
-    resetSlidesIfNeeded();
-    styleForSideSlider();
-    setTimeout(() => {
-      enableButtons(); // Включаем кнопки
-      isAnimating = false; // Снова разрешаем нажатия клавиш
-    }, 500); // Время завершения анимации
+    Next();
   }
   function prevArrow() {
-    if (currentIndex <= 0 || isAnimating) return;
-    disableButtons(); // Отключаем кнопки
-    isAnimating = true; // Блокируем нажатия клавиш
-
-    currentIndex--;
-    updateSliderPosition();
-    resetSlidesIfNeeded();
-    styleForSideSlider();
-    setTimeout(() => {
-      enableButtons(); // Включаем кнопки
-      isAnimating = false; // Снова разрешаем нажатия клавиш
-    }, 500); // Время завершения анимации
+    Prev();
   }
   function resetSlidesIfNeeded() {
     if (currentIndex === totalSlides - 2 || currentIndex === 1) {
@@ -126,6 +104,9 @@ function slider(prev, next, slideWrapper, slide) {
       slides[currentIndex - 1].classList.add('left');
     }
   }
+  function rightClickHandler() {
+    Next();
+  }
   function handleRightClick() {
     if (currentRight) {
       currentRight.removeEventListener('click', rightClickHandler);
@@ -135,19 +116,8 @@ function slider(prev, next, slideWrapper, slide) {
       currentRight.addEventListener('click', rightClickHandler);
     }
   }
-  function rightClickHandler() {
-    if (currentIndex >= totalSlides - 1 || isAnimating) return;
-    disableButtons(); // Отключаем кнопки
-    isAnimating = true; // Блокируем нажатия клавиш
-
-    currentIndex++;
-    updateSliderPosition();
-    resetSlidesIfNeeded();
-    styleForSideSlider();
-    setTimeout(() => {
-      enableButtons(); // Включаем кнопки
-      isAnimating = false; // Снова разрешаем нажатия клавиш
-    }, 500); // Время завершения анимации
+  function leftClickHandler() {
+    Prev();
   }
   function handleLeftClick() {
     if (currentLeft) {
@@ -158,7 +128,7 @@ function slider(prev, next, slideWrapper, slide) {
       currentLeft.addEventListener('click', leftClickHandler);
     }
   }
-  function leftClickHandler() {
+  function Prev() {
     if (currentIndex <= 0 || isAnimating) return;
     disableButtons(); // Отключаем кнопки
     isAnimating = true; // Блокируем нажатия клавиш
@@ -172,6 +142,28 @@ function slider(prev, next, slideWrapper, slide) {
       isAnimating = false; // Снова разрешаем нажатия клавиш
     }, 500); // Время завершения анимации
   }
+  function Next() {
+    if (currentIndex >= totalSlides - 1 || isAnimating) return;
+    disableButtons(); // Отключаем кнопки
+    isAnimating = true; // Блокируем нажатия клавиш
+
+    currentIndex++;
+    updateSliderPosition();
+    resetSlidesIfNeeded();
+    styleForSideSlider();
+    setTimeout(() => {
+      enableButtons(); // Включаем кнопки
+      isAnimating = false; // Снова разрешаем нажатия клавиш
+    }, 500); // Время завершения анимации
+  }
+  function adaptiveShiftForArrows(prev, next) {
+    const prevBtn = document.querySelector(prev);
+    const nextBtn = document.querySelector(next);
+    const windoWwidth = window.innerWidth;
+    prevBtn.style.left = `${windoWwidth / 128}%`;
+    nextBtn.style.right = `${windoWwidth / 128}%`;
+  }
+  adaptiveShiftForArrows('.prev', '.next');
 }
 
 /***/ })

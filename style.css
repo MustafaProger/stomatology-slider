@@ -61,11 +61,6 @@ hr {
     box-shadow: 0px 0px 80px #00B5E2;
 }
 
-/* .prev,
-.next {
-    display: none;
-} */
-
 .prev,
 .next {
     position: absolute;
@@ -78,13 +73,12 @@ hr {
 }
 
 .prev {
-    left: 35%;
+    left: 20%;
 }
 
 .next {
-    right: 35%;
+    right: 20%;
 }
-
 
 .prev::before,
 .prev::after,
@@ -97,6 +91,7 @@ hr {
     height: 5px;
     background-color: #00B5E2;
     border-radius: 10px;
+    transition: all 0.5s;
 }
 
 .prev::before {
@@ -117,4 +112,34 @@ hr {
 .next::after {
     top: 14%;
     transform: rotate(-35deg);
+}
+
+.prev:hover::before,
+.prev:hover::after,
+.next:hover::before,
+.next:hover::after {
+    box-shadow: 0 0 10px #00B5E2;
+}
+
+@media (max-width: 1500px) {
+    .prev {
+        left: 5% !important;
+    }
+    
+    .next {
+        right: 5% !important;
+    }
+}
+
+@media (max-width: 1250px) {
+    .container {
+        width: 550px;
+    }
+}
+
+@media (max-width: 768px) {
+    .prev,
+    .next {
+        display: none;
+    }
 }
