@@ -7,6 +7,8 @@ export default function slider(prev, next, slideWrapper, slide) {
     const slideWidth = slides[0].offsetWidth + 10;
     const carousel_dots = document.querySelector('.carousel-dots__content');
     const blocksHaveDot = document.querySelectorAll('.about__block-dot');
+    const dots = document.querySelectorAll('.dot');
+    const dotActive = document.querySelector('.dot.active span')
 
     let currentIndex = 2;
     let isAnimating = false; // Флаг для блокировки нажатий
@@ -187,6 +189,15 @@ export default function slider(prev, next, slideWrapper, slide) {
     }
 
     adaptiveShiftForArrows('.prev', '.next');
+
+
+    dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+
+            dotActive.style.left = `${(index - 1) * 50}px`
+            console.log(1)
+        });
+    });
 
 
     // track.addEventListener('touchstart', touchStart);

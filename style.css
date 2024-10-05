@@ -53,6 +53,7 @@ hr {
     transition: all 0.5s ease-in-out;
     transform: scale(0.8);
     opacity: 0.3;
+    user-select: none;
 }
 
 .about__block.active {
@@ -119,6 +120,48 @@ hr {
 .next:hover::before,
 .next:hover::after {
     box-shadow: 0 0 10px #00B5E2;
+}
+
+.carousel-dots__content {
+    position: relative;
+    height: 100px;
+    width: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.dot {
+    width: 50px;
+    height: 10px;
+}
+
+.dot  {
+    display: block;
+    width: 50px;
+    height: 10px;
+    background-color: transparent;
+}
+
+.dot span {
+    position: relative;
+    top: 5px;
+    display: block;
+    width: 50px;
+    height: 1px;
+    background-color: #00B5E2;
+    border-radius: 10px;
+
+}
+
+.dot.active span {
+    position: absolute;
+    top: 50%;
+    left: 50px;
+    transform: translateY(-50%);
+    height: 5px;
+    transition: all 0.5s;
 }
 
 @media (max-width: 1500px) {

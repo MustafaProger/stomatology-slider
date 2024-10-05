@@ -21,6 +21,8 @@ function slider(prev, next, slideWrapper, slide) {
   const slideWidth = slides[0].offsetWidth + 10;
   const carousel_dots = document.querySelector('.carousel-dots__content');
   const blocksHaveDot = document.querySelectorAll('.about__block-dot');
+  const dots = document.querySelectorAll('.dot');
+  const dotActive = document.querySelector('.dot.active span');
   let currentIndex = 2;
   let isAnimating = false; // Флаг для блокировки нажатий
   let currentRight = null; // Глобальная переменная для текущего элемента с классом 'right'
@@ -168,6 +170,12 @@ function slider(prev, next, slideWrapper, slide) {
     nextBtn.style.right = `${windoWwidth / 128}%`;
   }
   adaptiveShiftForArrows('.prev', '.next');
+  dots.forEach((dot, index) => {
+    dot.addEventListener('click', () => {
+      dotActive.style.left = `${(index - 1) * 50}px`;
+      console.log(1);
+    });
+  });
 
   // track.addEventListener('touchstart', touchStart);
   // track.addEventListener('touchmove', touchMove);
