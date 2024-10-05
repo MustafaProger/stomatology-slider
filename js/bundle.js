@@ -26,6 +26,10 @@ function slider(prev, next, slideWrapper, slide) {
   let currentRight = null; // Глобальная переменная для текущего элемента с классом 'right'
   let currentLeft = null; // Глобальная переменная для текущего элемента с классом 'left'
 
+  let startX = 0;
+  let currentTranslate = 0;
+  let prevTranslate = 0;
+  let isDragging = false;
   function updateSliderPosition() {
     moveSlide();
     updateActiveBlock();
@@ -164,6 +168,33 @@ function slider(prev, next, slideWrapper, slide) {
     nextBtn.style.right = `${windoWwidth / 128}%`;
   }
   adaptiveShiftForArrows('.prev', '.next');
+  track.addEventListener('touchstart', touchStart);
+  track.addEventListener('touchmove', touchMove);
+  track.addEventListener('touchend', touchEnd);
+  function touchStart(event) {
+    startX = event.touches[0].clientX;
+    isDragging = true;
+    prevTranslate = currentTranslate;
+  }
+  function touchMove(event) {
+    if (!isDragging) return;
+    const currentX = event.touches[0].clientX;
+    const diff = currentX - startX;
+    currentTranslate = prevTranslate + diff;
+    track.style.transform = `translateX(${currentTranslate}px)`;
+  }
+  function touchEnd() {
+    isDragging = false;
+    const moveThreshold = 50;
+    const movedBy = currentTranslate - prevTranslate;
+    if (movedBy < -moveThreshold) {
+      nextArrow();
+    } else if (movedBy > moveThreshold) {
+      prevArrow();
+    } else {
+      track.style.transform = `translateX(${prevTranslate}px)`;
+    }
+  }
 }
 
 /***/ })
