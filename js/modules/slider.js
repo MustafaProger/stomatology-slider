@@ -10,15 +10,15 @@ export default function slider() {
     const totalSlides = slides.length; // общее количество слайдов
     const totalDots = dots.length; // количество индикаторов
 
+    let startX = 0; // начальная позиция касания
+    let isDragging = false; // состояние перетаскивания
+
     // Обрабатываем клик по индикаторам
     dots.forEach((dot, index) => {
         dot.addEventListener('click', () => {
-            // Перемещаем слайдер на нужную позицию
             currentIndex = index; // устанавливаем текущий индекс на основе индикатора
             updateSliderPosition(); // обновляем позицию слайдера
-
-            // Перемещаем активную точку
-            moveActiveDot(currentIndex);
+            moveActiveDot(currentIndex); // перемещаем активную точку
         });
     });
 
@@ -28,8 +28,8 @@ export default function slider() {
         slides.forEach(slide => slide.classList.remove('active', 'prev', 'next'));
 
         // Определяем индексы предыдущего и следующего слайда
-        const prevIndex = currentIndex === 0 ? totalSlides - 1 : currentIndex - 1; // если текущий слайд первый, предыдущий - последний
-        const nextIndex = currentIndex === totalSlides - 1 ? 0 : currentIndex + 1; // если текущий слайд последний, следующий - первый
+        const prevIndex = (currentIndex === 0) ? totalSlides - 1 : currentIndex - 1;
+        const nextIndex = (currentIndex === totalSlides - 1) ? 0 : currentIndex + 1;
 
         // Устанавливаем классы активного, предыдущего и следующего слайдов
         slides[currentIndex].classList.add('active');
@@ -39,10 +39,7 @@ export default function slider() {
 
     // Функция для перемещения активной точки индикатора
     function moveActiveDot(currentSlideIndex) {
-        // Рассчитываем индекс активной точки на основе текущего индекса слайда
         const activeDotIndex = currentSlideIndex % totalDots;
-
-        // Перемещаем активную точку к соответствующему индикатору
         const activeDotPosition = dots[activeDotIndex].offsetLeft; // позиция нужного индикатора
         movingDot.style.transform = `translateX(${activeDotPosition}px)`; // перемещаем активную точку
 
@@ -51,16 +48,16 @@ export default function slider() {
         dots[activeDotIndex].classList.add('active'); // добавляем активный класс текущему индикатору
     }
 
-    // Функция для перехода к предыдущему слайду
-    function gotoPrev() {
-        currentIndex = currentIndex > 0 ? currentIndex - 1 : totalSlides - 1; // уменьшаем индекс, если возможно, иначе переходим к последнему слайду
+    // Функция для перехода к следующему слайду
+    function gotoNext() {
+        currentIndex = (currentIndex < totalSlides - 1) ? currentIndex + 1 : 0; // увеличиваем индекс, иначе переходим к первому слайду
         updateSliderPosition();
         moveActiveDot(currentIndex);
     }
 
-    // Функция для перехода к следующему слайду
-    function gotoNext() {
-        currentIndex = currentIndex < totalSlides - 1 ? currentIndex + 1 : 0; // увеличиваем индекс, если возможно, иначе переходим к первому слайду
+    // Функция для перехода к предыдущему слайду
+    function gotoPrev() {
+        currentIndex = (currentIndex > 0) ? currentIndex - 1 : totalSlides - 1; // уменьшаем индекс, иначе переходим к последнему слайду
         updateSliderPosition();
         moveActiveDot(currentIndex);
     }
@@ -68,7 +65,9 @@ export default function slider() {
     // Добавляем обработчики для кнопок "Назад" и "Вперед"
     const buttons = document.querySelectorAll('.button');
     buttons.forEach((btn, index) => {
-        btn.addEventListener('click', () => index == 0 ? gotoPrev() : gotoNext()); // если индекс кнопки 0, переходим назад, иначе вперед
+        btn.addEventListener('click', () => {
+            index === 0 ? gotoPrev() : gotoNext(); // если индекс кнопки 0, переходим назад, иначе вперед
+        });
     });
 
     // Обработчик нажатия клавиш
@@ -80,35 +79,34 @@ export default function slider() {
         }
     });
 
-    // track.addEventListener('touchstart', touchStart);
-    // track.addEventListener('touchmove', touchMove);
-    // track.addEventListener('touchend', touchEnd);
+    // Обработчики для сенсорного ввода
+    const track = document.querySelector('.about__blocks');
 
-    // function touchStart(event) {
-    //     startX = event.touches[0].clientX;
-    //     isDragging = true;
-    //     prevTranslate = currentTranslate;
-    // }
+    track.addEventListener('touchstart', (event) => {
+        startX = event.touches[0].clientX; // Сохраняем начальную позицию касания
+        isDragging = true; // Устанавливаем флаг перетаскивания
+    });
 
-    // function touchMove(event) {
-    //     if (!isDragging) return;
-    //     const currentX = event.touches[0].clientX;
-    //     const diff = currentX - startX;
-    //     currentTranslate = prevTranslate + diff;
-    //     track.style.transform = `translateX(${currentTranslate}px)`;
-    // }
+    track.addEventListener('touchmove', (event) => {
+        if (!isDragging) return; // Если не перетаскиваем, выходим
 
-    // function touchEnd() {
-    //     isDragging = false;
-    //     const moveThreshold = 50;
-    //     const movedBy = currentTranslate - prevTranslate;
+        const currentX = event.touches[0].clientX; // Текущая позиция касания
+        const diff = startX - currentX; // Разница между начальной и текущей позицией
 
-    //     if (movedBy < -moveThreshold) {
-    //         nextArrow();
-    //     } else if (movedBy > moveThreshold) {
-    //         prevArrow();
-    //     } else {
-    //         track.style.transform = `translateX(${prevTranslate}px)`;
-    //     }
-    // }
+        // Если движение больше 50 пикселей, переключаем слайды
+        if (diff > 50) {
+            gotoNext(); // Переключаем на следующий слайд
+            isDragging = false; // Сбрасываем флаг перетаскивания
+        } else if (diff < -50) {
+            gotoPrev(); // Переключаем на предыдущий слайд
+            isDragging = false; // Сбрасываем флаг перетаскивания
+        }
+    });
+
+    track.addEventListener('touchend', () => {
+        isDragging = false; // Сбрасываем флаг перетаскивания при завершении касания
+    });
+
+    // Инициализируем слайдер
+    updateSliderPosition();
 }
