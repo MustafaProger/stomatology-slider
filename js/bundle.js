@@ -172,10 +172,26 @@ function slider(prev, next, slideWrapper, slide) {
   adaptiveShiftForArrows('.prev', '.next');
   dots.forEach((dot, index) => {
     dot.addEventListener('click', () => {
+      // Перемещаем активную точку
       dotActive.style.left = `${(index - 1) * 50}px`;
-      console.log(1);
+      currentIndex = index + 1; // Устанавливаем текущий индекс слайда
+      updateSliderPosition();
+      resetSlidesIfNeeded();
+      styleForSideSlider();
+      setTimeout(() => {
+        enableButtons(); // Включаем кнопки
+        isAnimating = false; // Снова разрешаем нажатия клавиш
+      }, 500); // Время завершения анимации
+      scrollToBlock(index);
     });
   });
+  function scrollToBlock(index) {
+    const block = blocksHaveDot[index]; // Выбираем нужный блок по индексу
+    block.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
+    }); // Плавная прокрутка к блоку
+  }
 
   // track.addEventListener('touchstart', touchStart);
   // track.addEventListener('touchmove', touchMove);

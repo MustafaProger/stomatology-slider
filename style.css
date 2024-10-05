@@ -65,7 +65,7 @@ hr {
 .prev,
 .next {
     position: absolute;
-    top: 45%;
+    top: 40%;
     width: 50px;
     height: 60px;
     transform: translateY(50%);
@@ -123,9 +123,11 @@ hr {
 }
 
 .carousel-dots__content {
-    position: relative;
+    position: absolute;
     height: 100px;
     width: 150px;
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -152,16 +154,16 @@ hr {
     height: 1px;
     background-color: #00B5E2;
     border-radius: 10px;
-
 }
 
 .dot.active span {
     position: absolute;
     top: 50%;
-    left: 50px;
+    left: 0px;
     transform: translateY(-50%);
     height: 5px;
     transition: all 0.5s;
+    pointer-events: none;
 }
 
 @media (max-width: 1500px) {
