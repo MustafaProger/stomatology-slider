@@ -189,35 +189,35 @@ export default function slider(prev, next, slideWrapper, slide) {
     adaptiveShiftForArrows('.prev', '.next');
 
 
-    track.addEventListener('touchstart', touchStart);
-    track.addEventListener('touchmove', touchMove);
-    track.addEventListener('touchend', touchEnd);
+    // track.addEventListener('touchstart', touchStart);
+    // track.addEventListener('touchmove', touchMove);
+    // track.addEventListener('touchend', touchEnd);
 
-    function touchStart(event) {
-        startX = event.touches[0].clientX;
-        isDragging = true;
-        prevTranslate = currentTranslate;
-    }
+    // function touchStart(event) {
+    //     startX = event.touches[0].clientX;
+    //     isDragging = true;
+    //     prevTranslate = currentTranslate;
+    // }
 
-    function touchMove(event) {
-        if (!isDragging) return;
-        const currentX = event.touches[0].clientX;
-        const diff = currentX - startX;
-        currentTranslate = prevTranslate + diff;
-        track.style.transform = `translateX(${currentTranslate}px)`;
-    }
+    // function touchMove(event) {
+    //     if (!isDragging) return;
+    //     const currentX = event.touches[0].clientX;
+    //     const diff = currentX - startX;
+    //     currentTranslate = prevTranslate + diff;
+    //     track.style.transform = `translateX(${currentTranslate}px)`;
+    // }
 
-    function touchEnd() {
-        isDragging = false;
-        const moveThreshold = 50;
-        const movedBy = currentTranslate - prevTranslate;
+    // function touchEnd() {
+    //     isDragging = false;
+    //     const moveThreshold = 50;
+    //     const movedBy = currentTranslate - prevTranslate;
 
-        if (movedBy < -moveThreshold) {
-            nextArrow();
-        } else if (movedBy > moveThreshold) {
-            prevArrow();
-        } else {
-            track.style.transform = `translateX(${prevTranslate}px)`;
-        }
-    }
+    //     if (movedBy < -moveThreshold) {
+    //         nextArrow();
+    //     } else if (movedBy > moveThreshold) {
+    //         prevArrow();
+    //     } else {
+    //         track.style.transform = `translateX(${prevTranslate}px)`;
+    //     }
+    // }
 }

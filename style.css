@@ -142,4 +142,22 @@ hr {
     .next {
         display: none;
     }
+
+    .about__content-inner {
+        gap: 0;
+    }
+
+    .container {
+        width: 350px;
+        padding: 0;
+    }
+    
+    .slider {
+        width: 350px;
+        padding: 0;
+    }
+
+    .about__block.active {
+        box-shadow: 0 0 0 transparent;
+    }
 }
