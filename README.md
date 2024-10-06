@@ -1,7 +1,7 @@
-🌟 # Slider Module
+# 🌟 Slider Module
 Slider is a front-end web component that allows users to navigate through a series of slides effortlessly. This module enhances user interaction with features like touch gestures and keyboard navigation, making it an ideal addition for any website.
 
-🛠️ ## Tools and Technologies Used  
+## 🛠️ Tools and Technologies Used  
 - **HTML5:** Structured the layout for the slider component.  
 - **CSS3:** Styled the slider with responsive design techniques.  
 - **JavaScript (ES6+):** Implemented interactivity and slide transitions.  
@@ -9,18 +9,18 @@ Slider is a front-end web component that allows users to navigate through a seri
 - **Gulp:** Automated tasks for development.  
 - **Webpack:** Bundled and optimized assets for production.
 
-🌐 ## Features
+## 🌐 Features
 - **Interactive Navigation:** Users can switch between slides using buttons, indicators, or keyboard arrows.  
 - **Touch Support:** Fully functional on mobile devices with swipe gestures.  
 - **Dynamic Content Management:** Easily integrates with existing projects to display various content types.  
 - **Customizable Styles:** Flexible styling options to match your website's design.
 
-📂 ## Project Structure
+## 📂 Project Structure
 - `index.html`: Main HTML file containing the slider structure.  
 - `css/style.css`: Stylesheet for the slider, written in modular CSS.  
 - `js/slider.js`: JavaScript file containing the slider functionality.  
 
-📦 ## Installation 
+## 📦 Installation 
 To set up this project locally, follow these steps:  
 1. Clone the repository:  
    ```bash
@@ -43,8 +43,8 @@ To set up this project locally, follow these steps:
    npm run build
    ```
 
-🔗 **Demo**  
+## 🔗 Demo  
 Try the slider module [here](https://mustafaproger.github.io/stomatology-slider).
 
-🤝 **Contributions**  
+## 🤝 Contributions
 Contributions are welcome! Feel free to fork the repository and submit a pull request with your improvements.
