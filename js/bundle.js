@@ -12,17 +12,26 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ slider)
 /* harmony export */ });
-function slider() {
-  const dotsContainer = document.querySelector('.dots-container');
+function slider({
+  trackSelector,
+  slideselector,
+  buttonselector,
+  dotsContainerelector,
+  dotselector
+}) {
+  const track = document.querySelector(trackSelector);
+  const slides = document.querySelectorAll(slideselector);
+  const buttons = document.querySelectorAll(buttonselector);
+  const dotsContainer = document.querySelector(dotsContainerelector);
+  const dots = document.querySelectorAll(dotselector);
+  let currentIndex = 0; // текущий индекс слайда
+
+  const totalSlides = slides.length; // общее количество слайдов
+  const totalDots = dots.length; // количество индикаторов
+
   const movingDot = document.createElement('div'); // создаем элемент для перемещения активной точки
   movingDot.id = 'active-dot';
   dotsContainer.appendChild(movingDot); // добавляем активную точку в контейнер с точками
-
-  const dots = document.querySelectorAll('.dot');
-  const slides = document.querySelectorAll('.about__block');
-  let currentIndex = 0; // текущий индекс слайда
-  const totalSlides = slides.length; // общее количество слайдов
-  const totalDots = dots.length; // количество индикаторов
 
   let startX = 0; // начальная позиция касания
   let isDragging = false; // состояние перетаскивания
@@ -77,7 +86,6 @@ function slider() {
   }
 
   // Добавляем обработчики для кнопок "Назад" и "Вперед"
-  const buttons = document.querySelectorAll('.button');
   buttons.forEach((btn, index) => {
     btn.addEventListener('click', () => {
       index === 0 ? gotoPrev() : gotoNext(); // если индекс кнопки 0, переходим назад, иначе вперед
@@ -94,7 +102,7 @@ function slider() {
   });
 
   // Обработчики для сенсорного ввода
-  const track = document.querySelector('.about__blocks');
+
   track.addEventListener('touchstart', event => {
     startX = event.touches[0].clientX; // Сохраняем начальную позицию касания
     isDragging = true; // Устанавливаем флаг перетаскивания
@@ -190,7 +198,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_slider__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/slider */ "./js/modules/slider.js");
 
 window.addEventListener('DOMContentLoaded', () => {
-  (0,_modules_slider__WEBPACK_IMPORTED_MODULE_0__["default"])();
+  (0,_modules_slider__WEBPACK_IMPORTED_MODULE_0__["default"])({
+    trackSelector: '.about__blocks',
+    slideselector: '.about__block',
+    buttonselector: '.button',
+    dotsContainerelector: '.dots-container',
+    dotselector: '.dot'
+  });
 });
 })();
 

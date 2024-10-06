@@ -1,15 +1,18 @@
-export default function slider() {
-    const dotsContainer = document.querySelector('.dots-container');
-    const movingDot = document.createElement('div'); // создаем элемент для перемещения активной точки
-    movingDot.id = 'active-dot';
-    dotsContainer.appendChild(movingDot); // добавляем активную точку в контейнер с точками
-
-    const dots = document.querySelectorAll('.dot');
-    const slides = document.querySelectorAll('.about__block');
+export default function slider({trackSelector, slideselector, buttonselector, dotsContainerelector, dotselector}) {
+    const track = document.querySelector(trackSelector);
+    const slides = document.querySelectorAll(slideselector);
+    const buttons = document.querySelectorAll(buttonselector);
+    const dotsContainer = document.querySelector(dotsContainerelector);
+    const dots = document.querySelectorAll(dotselector);
     let currentIndex = 0; // текущий индекс слайда
+
     const totalSlides = slides.length; // общее количество слайдов
     const totalDots = dots.length; // количество индикаторов
 
+    const movingDot = document.createElement('div'); // создаем элемент для перемещения активной точки
+    movingDot.id = 'active-dot';
+    dotsContainer.appendChild(movingDot); // добавляем активную точку в контейнер с точками
+    
     let startX = 0; // начальная позиция касания
     let isDragging = false; // состояние перетаскивания
 
@@ -63,7 +66,6 @@ export default function slider() {
     }
 
     // Добавляем обработчики для кнопок "Назад" и "Вперед"
-    const buttons = document.querySelectorAll('.button');
     buttons.forEach((btn, index) => {
         btn.addEventListener('click', () => {
             index === 0 ? gotoPrev() : gotoNext(); // если индекс кнопки 0, переходим назад, иначе вперед
@@ -80,7 +82,6 @@ export default function slider() {
     });
 
     // Обработчики для сенсорного ввода
-    const track = document.querySelector('.about__blocks');
 
     track.addEventListener('touchstart', (event) => {
         startX = event.touches[0].clientX; // Сохраняем начальную позицию касания
